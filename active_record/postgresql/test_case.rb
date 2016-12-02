@@ -7,8 +7,10 @@ end
 
 gemfile(true) do
   source "https://rubygems.org"
-  gem "rails", path: File.expand_path("../../../rails", __FILE__)
-  gem "sqlite3"
+  gem "rails", path: File.expand_path("../../../../rails", __FILE__)
+  gem "pg"
+
+  gem "database_cleaner"
   gem "pry"
 end
 
@@ -16,12 +18,13 @@ require "active_record"
 require "minitest/autorun"
 require "logger"
 
-# This connection will do for database-independent bug reports.
 ActiveRecord::Base.establish_connection(
-  adapter: "sqlite3",
-  database: ":memory:",
+  adapter: "postgresql",
+  database: "test",
 )
 ActiveRecord::Base.logger = Logger.new(STDOUT)
+
+DatabaseCleaner.strategy = :transaction
 
 ActiveRecord::Schema.define do
   create_table :posts, force: true do |t|
@@ -32,4 +35,11 @@ class Post < ActiveRecord::Base
 end
 
 class PostTest < Minitest::Test
+  def setup
+    DatabaseCleaner.start
+  end
+
+  def teardown
+    DatabaseCleaner.clean
+  end
 end
