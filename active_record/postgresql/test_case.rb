@@ -26,6 +26,16 @@ ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 DatabaseCleaner.strategy = :transaction
 
+class Minitest::Test
+  def setup
+    DatabaseCleaner.start
+  end
+
+  def teardown
+    DatabaseCleaner.clean
+  end
+end
+
 ActiveRecord::Schema.define do
   create_table :posts, force: true do |t|
   end
@@ -35,11 +45,4 @@ class Post < ActiveRecord::Base
 end
 
 class PostTest < Minitest::Test
-  def setup
-    DatabaseCleaner.start
-  end
-
-  def teardown
-    DatabaseCleaner.clean
-  end
 end
