@@ -7,7 +7,13 @@ end
 
 gemfile(true) do
   source "https://rubygems.org"
-  gem "rails", path: File.expand_path("../../../rails", __FILE__)
+  if ENV["EDGE"]
+    gem "rails", path: File.expand_path("../../../rails", __FILE__)
+  elsif ENV["VERSION"]
+    gem "rails", ENV["VERSION"]
+  else
+    gem "rails"
+  end
   gem "sqlite3"
   gem "pry"
 end
