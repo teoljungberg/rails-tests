@@ -23,5 +23,5 @@ That's it.
 Modify the test case that fits your needs, and they all are runnable as such:
 
 ```sh
-% ruby active_record/postgres/test_case.rb
+% ruby active_record/postgres_test.rb
 ```
