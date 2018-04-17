@@ -35,10 +35,12 @@ DatabaseCleaner.strategy = :transaction
 class Minitest::Test
   def setup
     DatabaseCleaner.start
+    super
   end
 
   def teardown
     DatabaseCleaner.clean
+    super
   end
 end
 
